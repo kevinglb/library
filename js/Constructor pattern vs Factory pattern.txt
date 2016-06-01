@@ -1,0 +1,49 @@
+Constructor pattern vs Factory pattern
+
+- The basic difference of usage is that a constructor function is used with the new keyword, which causes JavaScript to automatically create a new object, and set this within the function to that object, and then return the object
+
+ var obj = new constructorFunction(parameters);
+
+ While a factory function is called as a regular funtion. Normally the object is created inside the funtion and returned.
+
+ var obj = factoryFunction(parameters);
+
+
+- Benefits of using constructors
+
+	Most books teach you to use constructors and new this refers to the new object
+	Some people like the way var myFoo = new Foo(); reads.
+
+- Drawbacks
+
+	Details of instantiation get leaked into the calling API (via the new requirement), so all callers are tightly coupled to the constructor implementation. If you ever need the additional flexibility of the factory, you'll have to refactor all callers (admittedly the exceptional case, rather than the rule).
+
+	Forgetting new is such a common bug, you should strongly consider adding a boilerplate check to ensure that the constructor is called correctly ( if (!(this instanceof Foo)) { return new Foo() } ). EDIT: Since ES6 (ES2015) you can't forget new with a class constructor, or the constructor will throw an error.
+
+	If you do the instanceof check, it leaves ambiguity as to whether or not new is required. In my opinion, it shouldn't be. You've effectively short circuited the new requirement, which means you could erase drawback #1. But then you've just got a factory function in all but name, with additional boilerplate, a capital letter, and less flexible this context.
+
+	Constructors break the Open / Closed Principle
+
+	But my main concern is that it violates the open/closed principle. You start out exporting a constructor, users start using the constructor, then down the road you realize you need the flexibility of a factory, instead (for instance, to switch the implementation to use object pools, or to instantiate across execution contexts, or to have more inheritance flexibility using prototypal OO).
+
+	You're stuck, though. You can't make the change without breaking all the code that calls your constructor with new. You can't switch to using object pools for performance gains, for instance.
+
+	Also, using constructors gives you a deceptive instanceof that doesn't work across execution contexts, and doesn't work if your constructor prototype gets swapped out. It will also fail if you start out returning this from your constructor, and then switch to exporting an arbitrary object, which you'd have to do to enable factory-like behavior in your constructor.
+
+
+- Benefits of using factories
+
+	Less code - no boilerplate required.
+	You can return any arbitrary object, and use any arbitrary prototype - giving you more flexibility to create various types of objects which implement the same API. For example, a media player that can create instances of both HTML5 and flash players, or an event library which can emit DOM events or web socket events. Factories can also instantiate objects across execution contexts, take advantage of object pools, and allow for more flexible prototypal inheritance models.
+	
+	You'd never have a need to convert from a factory to a constructor, so refactoring will never be an issue.
+
+	No ambiguity about using new. Don't. (It will make this behave badly, see next point). this behaves as it normally would - so you can use it to access the parent object (for example, inside player.create(), this refers to player, just like any other method invocation would. call and apply also reassign this, as expected. If you store prototypes on the parent object, that can be a great way to dynamically swap out functionality, and enable very flexible polymorphism for your object instantiation.
+
+	No ambiguity about whether or not to capitalize. Don't. Lint tools will complain, and then you'll be tempted to try to use new, and then you'll undo the benefit described above.
+	Some people like the way var myFoo = foo(); or var myFoo = foo.create(); reads.
+
+- Drawbacks
+
+	new doesn't behave as expected (see above). Solution: don't use it.
+	this doesn't refer to the new object (instead, if the constructor is invoked with dot notation or square bracket notation, e.g. foo.bar() - this refers to foo - just like every other JavaScript method -- see benefits).
