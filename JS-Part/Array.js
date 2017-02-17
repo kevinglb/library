@@ -1,7 +1,7 @@
 Array in JavaScript
 
+Array.isArray()	
 /*
-	Array.isArray	
     判断一个参数是不是array
 */
 //standard
@@ -17,16 +17,18 @@ var isArray = Array.isArray || function(arg) {
     return Object.prototype.toString.call(arg) === "[object Array]";
 };
 
+Array.prototype.concat()
 /*
-	Array.prototype.concat()
 	用于合并两个或多个数组，并返回新的数组，对原先的数组不作更改
 */
+
 var arr1 = [1,2,3],
 	arr2 = ['a','b','c'];
 var arr3 = arr1.concat(arr2); //[1,2,3,'a','b','c']
 
+
+Array.prototype.every()
 /*
-	Array.prototype.every()
 	every() 方法测试数组的所有元素是否都通过了指定函数的测试。
 */
 var isOdd = function(num){
@@ -166,6 +168,27 @@ var roots = numbers.map(function(x) {
 });
 //roots = [2,10,20,30]
 
+
+["1", "2", "3"].map(parseInt);
+//结果为[1,NaN,NaN] 因为parseInt需要两个参数(val, radix) 但是map传递了3个参数(val,index,array)
 /*
 	Array.prototype.reduce
+	reduce() 方法接收一个函数作为累加器，数组中的每个值（从左到右）开始缩减，最终为一个值
+	一个空数组上应用reduce会抛初始化错误的异常 TypeError
 */
+//forEach实现求和
+var arr = [1,2,3,4],
+sum = 0;
+arr.forEach(function(e){sum += e;}); // sum = 10  just for demo
+//map实现求和
+arr.map(function(obj){sum += obj});//return undefined array. sum = 10  just for demo
+//reduce实现求和
+arr.reduce(function(pre,cur){return pre + cur}); // return 10
+//reduce实现把数组元素提出来组成唯一数组(元素不再含有数组)
+const flatten = arr => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), []);
+
+/*
+	Array.prototype.reduceRight()
+	reduceRight() 方法接受一个函数作为累加器（accumulator），让每个值（从右到左，亦即从尾到头）缩减为一个值。（与 reduce() 的执行方向相反）
+*/
+

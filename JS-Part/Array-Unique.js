@@ -22,7 +22,7 @@ function uniqueArray(arr){
 
 //使用filter
 function uniqueArray(arr){
-	var a = arr.fliter(function(item,index,arr){
+	var a = arr.fliter(function(item,index,array){
 		return array.indexOf(item) === index;
 	});
 
