@@ -28,3 +28,4 @@ console.log(tF('get-element-by-id','-'));
 function getStr(arr){
 	return arr.join('');
 }
+

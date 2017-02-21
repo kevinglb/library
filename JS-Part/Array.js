@@ -187,8 +187,71 @@ arr.reduce(function(pre,cur){return pre + cur}); // return 10
 //reduce实现把数组元素提出来组成唯一数组(元素不再含有数组)
 const flatten = arr => arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatten(val) : val), []);
 
+Array.prototype.reduceRight()
 /*
-	Array.prototype.reduceRight()
 	reduceRight() 方法接受一个函数作为累加器（accumulator），让每个值（从右到左，亦即从尾到头）缩减为一个值。（与 reduce() 的执行方向相反）
+*/
+
+Array.prototype.reverse()
+/*
+	reverse() 方法颠倒数组中元素的位置。第一个元素会成为最后一个，最后一个会成为第一个。
+*/
+
+Array.prototype.shift()
+/*
+	shift() 方法从数组中删除第一个元素，并返回该元素的值。此方法更改数组的长度。
+	该方法和pop()相对应 都会改变原数组
+*/	
+
+
+Array.prototype.slice()
+/*
+	slice() 方法将数组的一部分浅拷贝, 返回到从开始到结束（不包括结束）选择的新数组对象。原始数组不会被修改。
+*/
+arr.slice(begin,end)
+/*
+	begin是起始位置的因索引 默认为0
+  	end是结束位置的索引 默认为原数组末尾 如果end 大于数组长度 slice会提取到原数组末尾
+*/
+var a = [1,2,3,4]
+a.slice()//[1,2,3,4]
+a.slice(1)//[2,3,4]
+a.slice(1,2)//[2,3]
+a.slice(1,4)//[2,3,4]
+
+Array.prototype.some()
+/*
+	some() 方法测试数组中的某些元素是否通过了指定函数的测试。
+
+	some 为数组中的每一个元素执行一次 callback 函数，直到找到一个使得 callback 返回一个“真值”（即可转换为布尔值 true 的值）。如果找到了这样一个值，some 将会立即返回 true。否则，some 返回 false。callback 只会在那些”有值“的索引上被调用，不会在那些被删除或从来未被赋值的索引上调用。
+	callback 被调用时传入三个参数：元素的值，元素的索引，被遍历的数组。
+	some不会改变原数组
+
+*/
+
+Array.prototype.sort()
+/*
+	sort() 方法在适当的位置对数组的元素进行排序，并返回数组。 sort 排序不一定是稳定的。默认排序顺序是根据字符串Unicode码点。
+*/
+
+
+Array.prototype.splice()
+/*
+	splice() 方法通过删除现有元素和/或添加新元素来更改数组的内容。
+
+*/
+array.splice(start)
+array.splice(start, deleteCount) 
+array.splice(start, deleteCount, item1, item2, ...)
+
+
+Array.prototype.toString()
+/*
+	toString() 返回一个字符串，表示指定的数组及其元素。
+*/
+
+Array.prototype.unshift()
+/*
+	unshift() 方法将一个或多个元素添加到数组的开头，并返回新数组的长度。
 */
 
